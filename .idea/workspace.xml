@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="640195d1-e107-4bdf-90b3-7a3510a22167" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cinema_project.db" beforeDir="false" afterPath="$PROJECT_DIR$/cinema_project.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/crud/movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/crud/movies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routers/movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/movies.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/schemas/movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/schemas/movies.py" afterDir="false" />
     </list>
@@ -97,7 +95,8 @@
       <workItem from="1755422786994" duration="9116000" />
       <workItem from="1755438430352" duration="393000" />
       <workItem from="1755438833823" duration="4273000" />
-      <workItem from="1755443451848" duration="1519000" />
+      <workItem from="1755443451848" duration="5693000" />
+      <workItem from="1755507846347" duration="6954000" />
     </task>
     <servers />
   </component>
@@ -105,6 +104,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/cinema_project_fastapi$cinema_project_fastapi.coverage" NAME="cinema_project_fastapi Coverage Results" MODIFIED="1755444751602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/cinema_project_fastapi$cinema_project_fastapi.coverage" NAME="cinema_project_fastapi Coverage Results" MODIFIED="1755516578307" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

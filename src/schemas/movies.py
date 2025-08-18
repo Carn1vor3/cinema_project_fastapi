@@ -2,7 +2,49 @@ from decimal import Decimal
 from typing import Optional, List
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
+
+
+class GenresBaseSchema(BaseModel):
+    name: str
+
+class GenresListSchema(BaseModel):
+    id: int
+    name: str
+
+    model_config = ConfigDict(from_attributes=True)
+
+class GenresCreateSchema(GenresBaseSchema):
+    pass
+
+
+class GenresUpdateSchema(GenresBaseSchema):
+    pass
+
+
+class StarsBaseSchema(BaseModel):
+    name: str
+
+
+class StarsListSchema(BaseModel):
+    id: int
+    name: str
+
+    model_config = ConfigDict(from_attributes=True)
+
+class StarsCreateSchema(StarsBaseSchema):
+    pass
+
+
+class StarsUpdateSchema(StarsBaseSchema):
+    pass
+
+
+class DirectorsListSchema(BaseModel):
+    id: int
+    name: str
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CertificateSchema(BaseModel):
@@ -22,6 +64,9 @@ class MovieBaseSchema(BaseModel):
     description: str
     price: Optional[Decimal]
     certification_id: int
+    stars_ids: Optional[List[int]] = Field(default_factory=list)
+    genres_ids: Optional[List[int]] = Field(default_factory=list)
+    directors_ids: Optional[List[int]] = Field(default_factory=list)
 
 
 class MovieListSchema(BaseModel):
@@ -38,30 +83,40 @@ class MovieListSchema(BaseModel):
     price: Optional[Decimal]
     certification_id: int
 
-    stars_ids: List[int] = Field(default_factory=list)
-    genres_ids: List[int] = Field(default_factory=list)
-    directors_ids: List[int] = Field(default_factory=list)
+    stars: List[StarsListSchema] = Field(default_factory=list)
+    genres: List[GenresListSchema] = Field(default_factory=list)
+    directors: List[DirectorsListSchema] = Field(default_factory=list)
 
     class Config:
         orm_mode = True
 
 
 
-class MovieCreateSchema(BaseModel):
-    uuid: UUID
-    name: str = Field(max_length=250)
-    year: int
-    time: int
-    imdb: float
-    votes: int
-    meta_score: Optional[float]
-    gross: Optional[float]
-    description: str
-    price: Optional[Decimal]
-    certification_id: int
-    stars_ids: Optional[List[int]] = Field(default_factory=list)
-    genres_ids: Optional[List[int]] = Field(default_factory=list)
-    directors_ids: Optional[List[int]] = Field(default_factory=list)
+class MovieCreateSchema(MovieBaseSchema):
+    pass
 
     class Config:
         orm_mode = True
+
+
+class MovieUpdateSchema(BaseModel):
+    uuid: Optional[UUID] = None
+    name: Optional[str] = Field(None, max_length=250)
+    year: Optional[int] = None
+    time: Optional[int] = None
+    imdb: Optional[float] = None
+    votes: Optional[int] = None
+    meta_score: Optional[float] = None
+    gross: Optional[float] = None
+    description: Optional[str] = None
+    price: Optional[Decimal] = None
+    certification_id: Optional[int] = None
+
+    stars_ids: Optional[List[int]] = None
+    genres_ids: Optional[List[int]] = None
+    directors_ids: Optional[List[int]] = None
+
+    class Config:
+        orm_mode = True
+
+
