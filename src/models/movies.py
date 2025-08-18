@@ -8,6 +8,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 class Base(DeclarativeBase):
     pass
 
+
 movies_stars = Table(
     "movies_stars",
     Base.metadata,
@@ -44,12 +45,20 @@ class Movies(Base):
     gross: Mapped[float] = mapped_column(nullable=True)
     description: Mapped[str] = mapped_column(nullable=False)
     price: Mapped[decimal.Decimal] = mapped_column(nullable=True)
-    certification_id: Mapped[int] = mapped_column(ForeignKey("certifications.id"), nullable=False)
+    certification_id: Mapped[int] = mapped_column(
+        ForeignKey("certifications.id"), nullable=False
+    )
     certification: Mapped["Certifications"] = relationship(back_populates="movies")
 
-    stars: Mapped[list["Stars"]] = relationship(secondary=movies_stars, back_populates="movies")
-    genres: Mapped[list["Genres"]] = relationship(secondary=movies_genres, back_populates="movies")
-    directors: Mapped[list["Directors"]] = relationship(secondary=movies_directors, back_populates="movies")
+    stars: Mapped[list["Stars"]] = relationship(
+        secondary=movies_stars, back_populates="movies"
+    )
+    genres: Mapped[list["Genres"]] = relationship(
+        secondary=movies_genres, back_populates="movies"
+    )
+    directors: Mapped[list["Directors"]] = relationship(
+        secondary=movies_directors, back_populates="movies"
+    )
 
 
 class Certifications(Base):
@@ -67,7 +76,9 @@ class Stars(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
 
-    movies: Mapped[list["Movies"]] = relationship(secondary=movies_stars, back_populates="stars")
+    movies: Mapped[list["Movies"]] = relationship(
+        secondary=movies_stars, back_populates="stars"
+    )
 
 
 class Genres(Base):
@@ -76,7 +87,9 @@ class Genres(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
 
-    movies: Mapped[list["Movies"]] = relationship(secondary=movies_genres, back_populates="genres")
+    movies: Mapped[list["Movies"]] = relationship(
+        secondary=movies_genres, back_populates="genres"
+    )
 
 
 class Directors(Base):
@@ -85,10 +98,6 @@ class Directors(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
 
-    movies: Mapped[list["Movies"]] = relationship(secondary=movies_directors, back_populates="directors")
-
-
-
-
-
-
+    movies: Mapped[list["Movies"]] = relationship(
+        secondary=movies_directors, back_populates="directors"
+    )

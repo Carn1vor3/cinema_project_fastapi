@@ -8,11 +8,19 @@ from pydantic import BaseModel, Field, ConfigDict
 class GenresBaseSchema(BaseModel):
     name: str
 
+
 class GenresListSchema(BaseModel):
     id: int
     name: str
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class GenresWithCountSchema(BaseModel):
+    id: int
+    name: str
+    movies_count: int
+
 
 class GenresCreateSchema(GenresBaseSchema):
     pass
@@ -31,6 +39,7 @@ class StarsListSchema(BaseModel):
     name: str
 
     model_config = ConfigDict(from_attributes=True)
+
 
 class StarsCreateSchema(StarsBaseSchema):
     pass
@@ -91,7 +100,6 @@ class MovieListSchema(BaseModel):
         orm_mode = True
 
 
-
 class MovieCreateSchema(MovieBaseSchema):
     pass
 
@@ -120,3 +128,19 @@ class MovieUpdateSchema(BaseModel):
         orm_mode = True
 
 
+class MovieInGenreSchema(BaseModel):
+    id: int
+    name: str
+    year: int
+
+    class Config:
+        orm_mode = True
+
+
+class GenresDetailSchema(BaseModel):
+    id: int
+    name: str
+    movies: List[MovieInGenreSchema] = Field(default_factory=list)
+
+    class Config:
+        orm_mode = True

@@ -3,14 +3,38 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from crud.movies import get_movies, get_movie_by_id, delete_movie, create_movie, update_movie, get_genres, \
-    get_genre_by_id, create_genre, delete_genre, update_genre, get_stars, get_star_by_id, create_star, delete_star, \
-    update_star
+from crud.movies import (
+    get_movies,
+    get_movie_by_id,
+    delete_movie,
+    create_movie,
+    update_movie,
+    get_genres,
+    get_genre_by_id,
+    create_genre,
+    delete_genre,
+    update_genre,
+    get_stars,
+    get_star_by_id,
+    create_star,
+    delete_star,
+    update_star,
+)
 from database import get_db
-from schemas.movies import MovieListSchema, MovieCreateSchema, MovieUpdateSchema, GenresListSchema, GenresCreateSchema, \
-    GenresUpdateSchema, StarsListSchema, StarsCreateSchema, StarsUpdateSchema
+from schemas.movies import (
+    MovieListSchema,
+    MovieCreateSchema,
+    MovieUpdateSchema,
+    GenresListSchema,
+    GenresCreateSchema,
+    GenresUpdateSchema,
+    StarsListSchema,
+    StarsCreateSchema,
+    StarsUpdateSchema, GenresWithCountSchema, GenresDetailSchema,
+)
 
 router = APIRouter()
+
 
 @router.get("/movies", response_model=list[MovieListSchema], tags=["Movies"])
 async def list_movies(
@@ -53,29 +77,42 @@ async def remove_movie(movie_id: int, db: AsyncSession = Depends(get_db)):
 async def add_movie(movie_data: MovieCreateSchema, db: AsyncSession = Depends(get_db)):
     return await create_movie(movie_data=movie_data, db=db)
 
+
 @router.patch("/movies/{movie_id}", response_model=MovieListSchema, tags=["Movies"])
-async def put_movie(movie_id: int, new_movie: MovieUpdateSchema, db: AsyncSession = Depends(get_db)):
+async def put_movie(
+    movie_id: int, new_movie: MovieUpdateSchema, db: AsyncSession = Depends(get_db)
+):
     return await update_movie(movie_id=movie_id, new_movie=new_movie, db=db)
 
 
-@router.get("/genres", response_model=List[GenresListSchema], tags=["Genres"])
+@router.get("/genres", response_model=List[GenresWithCountSchema], tags=["Genres"])
 async def list_genres(db: AsyncSession = Depends(get_db)):
     return await get_genres(db=db)
 
-@router.get("/genres/{genre_id}", response_model=GenresListSchema, tags=["Genres"])
+
+@router.get("/genres/{genre_id}", response_model=GenresDetailSchema, tags=["Genres"])
 async def detail_genres(genre_id: int, db: AsyncSession = Depends(get_db)):
     return await get_genre_by_id(genre_id=genre_id, db=db)
 
+
 @router.post("/genres", response_model=GenresListSchema, tags=["Genres"])
-async def post_genres(new_genre: GenresCreateSchema, db: AsyncSession = Depends(get_db)):
+async def post_genres(
+    new_genre: GenresCreateSchema, db: AsyncSession = Depends(get_db)
+):
     return await create_genre(new_genre=new_genre, db=db)
+
 
 @router.delete("/genres/{genre_id}", tags=["Genres"])
 async def remove_genre(genre_id: int, db: AsyncSession = Depends(get_db)):
     return await delete_genre(genre_id=genre_id, db=db)
 
+
 @router.put("/genres/{genre_id}", response_model=GenresListSchema, tags=["Genres"])
-async def put_genre(genre_id: int, new_genre_data: GenresUpdateSchema, db: AsyncSession = Depends(get_db)):
+async def put_genre(
+    genre_id: int,
+    new_genre_data: GenresUpdateSchema,
+    db: AsyncSession = Depends(get_db),
+):
     return await update_genre(genre_id=genre_id, new_genre_data=new_genre_data, db=db)
 
 
@@ -83,20 +120,24 @@ async def put_genre(genre_id: int, new_genre_data: GenresUpdateSchema, db: Async
 async def list_stars(db: AsyncSession = Depends(get_db)):
     return await get_stars(db=db)
 
+
 @router.get("/stars/{star_id}", response_model=StarsListSchema, tags=["Stars"])
 async def detail_stars(star_id: int, db: AsyncSession = Depends(get_db)):
     return await get_star_by_id(star_id=star_id, db=db)
+
 
 @router.post("/stars", response_model=StarsListSchema, tags=["Stars"])
 async def post_stars(new_star: StarsCreateSchema, db: AsyncSession = Depends(get_db)):
     return await create_star(new_star=new_star, db=db)
 
+
 @router.delete("/stars/{star_id}", tags=["Stars"])
 async def remove_star(star_id: int, db: AsyncSession = Depends(get_db)):
     return await delete_star(star_id=star_id, db=db)
 
+
 @router.put("/stars/{star_id}", response_model=StarsListSchema, tags=["Stars"])
-async def put_stars(star_id: int, new_star_data: StarsUpdateSchema, db: AsyncSession = Depends(get_db)):
+async def put_stars(
+    star_id: int, new_star_data: StarsUpdateSchema, db: AsyncSession = Depends(get_db)
+):
     return await update_star(star_id=star_id, new_star_data=new_star_data, db=db)
-
-

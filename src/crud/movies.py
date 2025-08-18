@@ -1,11 +1,21 @@
 from fastapi import HTTPException
-from sqlalchemy import select, or_
+from sqlalchemy import select, or_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from models.movies import Movies, Stars, Genres, Directors
-from schemas.movies import MovieListSchema, MovieCreateSchema, MovieUpdateSchema, GenresCreateSchema, \
-    GenresUpdateSchema, StarsUpdateSchema, StarsCreateSchema, StarsListSchema, GenresListSchema, DirectorsListSchema
+from schemas.movies import (
+    MovieListSchema,
+    MovieCreateSchema,
+    MovieUpdateSchema,
+    GenresCreateSchema,
+    GenresUpdateSchema,
+    StarsUpdateSchema,
+    StarsCreateSchema,
+    StarsListSchema,
+    GenresListSchema,
+    DirectorsListSchema,
+)
 
 from typing import List, Optional
 from schemas.movies import MovieListSchema
@@ -15,23 +25,23 @@ from schemas.movies import MovieListSchema
 
 
 async def get_movies(
-        limit: int,
-        offset: int,
-        db: AsyncSession,
-        year: Optional[int] = None,
-        imdb: Optional[float] = None,
-        meta_score: Optional[float] = None,
-        search: Optional[str] = None,
-        year_sort: bool = False,
-        imdb_sort: bool = False,
-        meta_score_sort: bool = False,
+    limit: int,
+    offset: int,
+    db: AsyncSession,
+    year: Optional[int] = None,
+    imdb: Optional[float] = None,
+    meta_score: Optional[float] = None,
+    search: Optional[str] = None,
+    year_sort: bool = False,
+    imdb_sort: bool = False,
+    meta_score_sort: bool = False,
 ) -> List[MovieListSchema]:
     query = (
         select(Movies)
         .options(
             selectinload(Movies.stars),
             selectinload(Movies.genres),
-            selectinload(Movies.directors)
+            selectinload(Movies.directors),
         )
         .offset(offset)
         .limit(limit)
@@ -61,10 +71,9 @@ async def get_movies(
                 Movies.name.ilike(search_pattern),
                 Movies.description.ilike(search_pattern),
                 Movies.stars.any(Stars.name.ilike(search_pattern)),
-                Movies.directors.any(Directors.name.ilike(search_pattern))
+                Movies.directors.any(Directors.name.ilike(search_pattern)),
             )
         )
-
 
     result = await db.execute(query)
     movies = result.scalars().all()
@@ -87,12 +96,11 @@ async def get_movies(
                 certification_id=m.certification_id,
                 stars=[StarsListSchema.from_orm(s) for s in m.stars],
                 genres=[GenresListSchema.from_orm(g) for g in m.genres],
-                directors=[DirectorsListSchema.from_orm(d) for d in m.directors]
+                directors=[DirectorsListSchema.from_orm(d) for d in m.directors],
             )
         )
 
     return movies_list
-
 
 
 async def get_movie_by_id(movie_id: int, db: AsyncSession):
@@ -101,7 +109,7 @@ async def get_movie_by_id(movie_id: int, db: AsyncSession):
         .options(
             selectinload(Movies.stars),
             selectinload(Movies.genres),
-            selectinload(Movies.directors)
+            selectinload(Movies.directors),
         )
         .where(Movies.id == movie_id)
     )
@@ -124,10 +132,8 @@ async def get_movie_by_id(movie_id: int, db: AsyncSession):
         certification_id=movie.certification_id,
         stars=[StarsListSchema.from_orm(s) for s in movie.stars],
         genres=[GenresListSchema.from_orm(g) for g in movie.genres],
-        directors=[DirectorsListSchema.from_orm(d) for d in movie.directors]
+        directors=[DirectorsListSchema.from_orm(d) for d in movie.directors],
     )
-
-
 
 
 async def delete_movie(movie_id: int, db: AsyncSession):
@@ -154,24 +160,30 @@ async def create_movie(movie_data: MovieCreateSchema, db: AsyncSession):
         gross=movie_data.gross,
         description=movie_data.description,
         price=movie_data.price,
-        certification_id=movie_data.certification_id
+        certification_id=movie_data.certification_id,
     )
 
     stars_list = []
     if movie_data.stars_ids:
-        result = await db.execute(select(Stars).where(Stars.id.in_(movie_data.stars_ids)))
+        result = await db.execute(
+            select(Stars).where(Stars.id.in_(movie_data.stars_ids))
+        )
         stars_list = result.scalars().all()
         new_movie.stars = stars_list
 
     genres_list = []
     if movie_data.genres_ids:
-        result = await db.execute(select(Genres).where(Genres.id.in_(movie_data.genres_ids)))
+        result = await db.execute(
+            select(Genres).where(Genres.id.in_(movie_data.genres_ids))
+        )
         genres_list = result.scalars().all()
         new_movie.genres = genres_list
 
     directors_list = []
     if movie_data.directors_ids:
-        result = await db.execute(select(Directors).where(Directors.id.in_(movie_data.directors_ids)))
+        result = await db.execute(
+            select(Directors).where(Directors.id.in_(movie_data.directors_ids))
+        )
         directors_list = result.scalars().all()
         new_movie.directors = directors_list
 
@@ -194,8 +206,9 @@ async def create_movie(movie_data: MovieCreateSchema, db: AsyncSession):
         "certification_id": new_movie.certification_id,
         "stars_ids": [s.id for s in stars_list],
         "genres_ids": [g.id for g in genres_list],
-        "directors_ids": [d.id for d in directors_list]
+        "directors_ids": [d.id for d in directors_list],
     }
+
 
 async def update_movie(movie_id: int, new_movie: MovieUpdateSchema, db: AsyncSession):
     result = await db.execute(
@@ -236,21 +249,22 @@ async def update_movie(movie_id: int, new_movie: MovieUpdateSchema, db: AsyncSes
         movie_to_update.certification_id = new_movie.certification_id
 
     if new_movie.stars_ids:
-        result = await db.execute(select(Stars).where(Stars.id.in_(new_movie.stars_ids)))
+        result = await db.execute(
+            select(Stars).where(Stars.id.in_(new_movie.stars_ids))
+        )
         movie_to_update.stars = result.scalars().all()
 
-
     if new_movie.genres_ids:
-        result = await db.execute(select(Genres).where(Genres.id.in_(new_movie.genres_ids)))
+        result = await db.execute(
+            select(Genres).where(Genres.id.in_(new_movie.genres_ids))
+        )
         movie_to_update.genres = result.scalars().all()
 
-
     if new_movie.directors_ids:
-        result = await db.execute(select(Directors).where(Directors.id.in_(new_movie.directors_ids)))
+        result = await db.execute(
+            select(Directors).where(Directors.id.in_(new_movie.directors_ids))
+        )
         movie_to_update.directors = result.scalars().all()
-
-
-
 
     db.add(movie_to_update)
     await db.commit()
@@ -269,12 +283,14 @@ async def get_stars(db: AsyncSession):
         raise HTTPException(status_code=404, detail="Stars not found")
     return stars_list
 
+
 async def get_star_by_id(star_id: int, db: AsyncSession):
     result = await db.execute(select(Stars).where(Stars.id == star_id))
     star = result.scalar_one_or_none()
     if not star:
         raise HTTPException(status_code=404, detail="Star not found")
     return star
+
 
 async def create_star(new_star: StarsCreateSchema, db: AsyncSession):
     star = Stars(
@@ -285,6 +301,7 @@ async def create_star(new_star: StarsCreateSchema, db: AsyncSession):
     await db.refresh(star)
     return star
 
+
 async def delete_star(star_id: int, db: AsyncSession):
     result = await db.execute(select(Stars).where(Stars.id == star_id))
     star = result.scalar_one_or_none()
@@ -293,6 +310,7 @@ async def delete_star(star_id: int, db: AsyncSession):
     await db.delete(star)
     await db.commit()
     return {"detail": f"Star with id {star.id} deleted successfully"}
+
 
 async def update_star(star_id: int, new_star_data: StarsUpdateSchema, db: AsyncSession):
     result = await db.execute(select(Stars).where(Stars.id == star_id))
@@ -310,19 +328,32 @@ async def update_star(star_id: int, new_star_data: StarsUpdateSchema, db: AsyncS
 
 ### Genres Model CRUD ###
 
+
 async def get_genres(db: AsyncSession):
-    result = await db.execute(select(Genres))
-    genres = result.scalars().all()
+    query = (
+        select(Genres.id, Genres.name, func.count(Movies.id).label("movies_count"))
+        .join(Movies.genres)
+        .group_by(Genres.id)
+    )
+    result = await db.execute(query)
+    genres = result.all()
     if not genres:
         raise HTTPException(status_code=404, detail="Stars not found")
-    return genres
+    return [{"id": g[0], "name": g[1], "movies_count": g[2]} for g in genres]
 
-async def get_genre_by_id(genre_id: int, db: AsyncSession):
-    result = await db.execute(select(Genres).where(Genres.id == genre_id))
+
+async def get_genre_by_id(db: AsyncSession, genre_id: int) -> Genres | None:
+    result = await db.execute(
+        select(Genres)
+        .options(selectinload(Genres.movies))
+        .where(Genres.id == genre_id)
+    )
     genre = result.scalar_one_or_none()
     if not genre:
         raise HTTPException(status_code=404, detail="Genre not found")
     return genre
+
+
 
 async def create_genre(new_genre: GenresCreateSchema, db: AsyncSession):
     genre = Genres(
@@ -333,6 +364,7 @@ async def create_genre(new_genre: GenresCreateSchema, db: AsyncSession):
     await db.refresh(genre)
     return genre
 
+
 async def delete_genre(genre_id: int, db: AsyncSession):
     result = await db.execute(select(Genres).where(Genres.id == genre_id))
     genre = result.scalar_one_or_none()
@@ -342,7 +374,10 @@ async def delete_genre(genre_id: int, db: AsyncSession):
     await db.commit()
     return {"detail": f"Genre with id {genre.id} deleted successfully"}
 
-async def update_genre(genre_id: int, new_genre_data: GenresUpdateSchema, db: AsyncSession):
+
+async def update_genre(
+    genre_id: int, new_genre_data: GenresUpdateSchema, db: AsyncSession
+):
     result = await db.execute(select(Genres).where(Genres.id == genre_id))
     genre = result.scalar_one_or_none()
     if not genre:
@@ -352,5 +387,3 @@ async def update_genre(genre_id: int, new_genre_data: GenresUpdateSchema, db: As
     await db.commit()
     await db.refresh(genre)
     return genre
-
-
