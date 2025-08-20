@@ -1,34 +1,16 @@
 import decimal
+from datetime import datetime, UTC
+from typing import TYPE_CHECKING
 from uuid import UUID
 
-from sqlalchemy import String, ForeignKey, Table, Column
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy import String, ForeignKey, Table, Column, Text, CheckConstraint
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from database import Base
+from models.base import movies_stars, movies_genres, movies_directors, user_favorites
+if TYPE_CHECKING:
+    from models.users import User
 
-class Base(DeclarativeBase):
-    pass
-
-
-movies_stars = Table(
-    "movies_stars",
-    Base.metadata,
-    Column("movie_id", ForeignKey("movies.id"), primary_key=True),
-    Column("star_id", ForeignKey("stars.id"), primary_key=True),
-)
-
-movies_genres = Table(
-    "movies_genres",
-    Base.metadata,
-    Column("movie_id", ForeignKey("movies.id"), primary_key=True),
-    Column("genre_id", ForeignKey("genres.id"), primary_key=True),
-)
-
-movies_directors = Table(
-    "movies_directors",
-    Base.metadata,
-    Column("movie_id", ForeignKey("movies.id"), primary_key=True),
-    Column("director_id", ForeignKey("directors.id"), primary_key=True),
-)
 
 
 class Movies(Base):
@@ -59,6 +41,14 @@ class Movies(Base):
     directors: Mapped[list["Directors"]] = relationship(
         secondary=movies_directors, back_populates="movies"
     )
+    likes: Mapped[list["MovieLike"]] = relationship(back_populates="movie")
+    comments: Mapped[list["MovieComment"]] = relationship(back_populates="movie")
+    favorited_by: Mapped[list["User"]] = relationship(
+        "User",
+        secondary=user_favorites,
+        back_populates="favorite_movies"
+    )
+    ratings: Mapped[list["MovieRating"]] = relationship("MovieRating", back_populates="movie")
 
 
 class Certifications(Base):
@@ -101,3 +91,43 @@ class Directors(Base):
     movies: Mapped[list["Movies"]] = relationship(
         secondary=movies_directors, back_populates="directors"
     )
+
+
+class MovieLike(Base):
+    __tablename__ = "movie_likes"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
+    movie_id: Mapped[int] = mapped_column(ForeignKey("movies.id"), nullable=False)
+
+    user: Mapped["User"] = relationship("User")
+    movie: Mapped["Movies"] = relationship("Movies", back_populates="likes")
+
+
+class MovieComment(Base):
+    __tablename__ = "movie_comments"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
+    movie_id: Mapped[int] = mapped_column(ForeignKey("movies.id"), nullable=False)
+    content: Mapped[str] = mapped_column(Text, nullable=False)
+
+    created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(UTC))
+    user: Mapped["User"] = relationship("User")
+    movie: Mapped["Movies"] = relationship("Movies", back_populates="comments")
+
+
+class MovieRating(Base):
+    __tablename__ = "movie_ratings"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
+    movie_id: Mapped[int] = mapped_column(ForeignKey("movies.id"), nullable=False)
+    rating: Mapped[int] = mapped_column(nullable=False)
+
+    __table_args__ = (
+        CheckConstraint('rating >= 1 AND rating <= 10', name='rating_range'),
+    )
+
+    user: Mapped["User"] = relationship("User")
+    movie: Mapped["Movies"] = relationship("Movies")

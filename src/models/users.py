@@ -4,7 +4,9 @@ from datetime import datetime, UTC
 from sqlalchemy import String, ForeignKey, Enum, DateTime
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 
-from models.movies import Base
+from database import Base
+from models.base import user_favorites
+from models.movies import Movies, MovieRating
 
 
 class GenderEnum(enum.Enum):
@@ -48,6 +50,12 @@ class User(Base):
         "PasswordResetToken", back_populates="user", uselist=False
     )
     refresh_token: Mapped[list["RefreshToken"]] = relationship("RefreshToken", back_populates="user")
+    favorite_movies: Mapped[list["Movies"]] = relationship(
+        "Movies",
+        secondary=user_favorites,
+        back_populates="favorited_by"
+    )
+    ratings: Mapped[list["MovieRating"]] = relationship("MovieRating", back_populates="user")
 
 
 class UserProfile(Base):

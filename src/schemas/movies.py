@@ -2,7 +2,7 @@ from decimal import Decimal
 from typing import Optional, List
 from uuid import UUID
 
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, conint
 
 
 class GenresBaseSchema(BaseModel):
@@ -144,3 +144,24 @@ class GenresDetailSchema(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class MovieLikeCreate(BaseModel):
+    movie_id: int
+
+class MovieCommentCreate(BaseModel):
+    movie_id: int
+    content: str
+
+class MovieCommentOut(BaseModel):
+    id: int
+    user_id: int
+    movie_id: int
+    content: str
+
+    class Config:
+        from_attributes = True
+
+
+class MovieRatingCreate(BaseModel):
+    rating: conint(ge=1, le=10)

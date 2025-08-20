@@ -1,7 +1,9 @@
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from crud.movies import (
     get_movies,
@@ -21,6 +23,9 @@ from crud.movies import (
     update_star,
 )
 from database import get_db
+from models.base import user_favorites
+from models.movies import Movies, Stars, Directors, MovieRating
+from models.users import User
 from schemas.movies import (
     MovieListSchema,
     MovieCreateSchema,
@@ -30,8 +35,11 @@ from schemas.movies import (
     GenresUpdateSchema,
     StarsListSchema,
     StarsCreateSchema,
-    StarsUpdateSchema, GenresWithCountSchema, GenresDetailSchema,
+    StarsUpdateSchema, GenresWithCountSchema, GenresDetailSchema, MovieLikeCreate, MovieCommentOut, MovieCommentCreate,
+    MovieRatingCreate,
 )
+from services.movies import toggle_like_movie, add_comment_movie
+from services.users import get_current_user
 
 router = APIRouter()
 
@@ -141,3 +149,181 @@ async def put_stars(
     star_id: int, new_star_data: StarsUpdateSchema, db: AsyncSession = Depends(get_db)
 ):
     return await update_star(star_id=star_id, new_star_data=new_star_data, db=db)
+
+
+@router.post("/like-toggle", tags=["Likes, comments and favourites"])
+async def like_toggle(data: MovieLikeCreate, user=Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+    return await toggle_like_movie(user, data.movie_id, db)
+
+
+@router.post("/comment", response_model=MovieCommentOut, tags=["Likes, comments and favourites"])
+async def comment_movie(data: MovieCommentCreate, user=Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+    return await add_comment_movie(user, data.movie_id, data.content, db)
+
+
+@router.post("/favorites/{movie_id}")
+async def add_favorite(
+    movie_id: int,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    result = await db.execute(
+        select(User)
+        .options(selectinload(User.favorite_movies))
+        .where(User.id == current_user.id)
+    )
+    user = result.scalars().first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    result = await db.execute(select(Movies).where(Movies.id == movie_id))
+    movie = result.scalars().first()
+    if not movie:
+        raise HTTPException(status_code=404, detail="Movie not found")
+
+    if movie in user.favorite_movies:
+        return {"detail": "Movie already in favorites"}
+
+    user.favorite_movies.append(movie)
+    db.add(user)
+    await db.commit()
+    await db.refresh(user)
+
+    return {"detail": f"Movie '{movie.name}' added to favorites"}
+
+
+@router.delete("/favorites/{movie_id}")
+async def remove_favorite(
+    movie_id: int,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    result = await db.execute(
+        select(User)
+        .options(selectinload(User.favorite_movies))
+        .where(User.id == current_user.id)
+    )
+    user = result.scalars().first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    result = await db.execute(select(Movies).where(Movies.id == movie_id))
+    movie = result.scalars().first()
+    if not movie:
+        raise HTTPException(status_code=404, detail="Movie not found")
+
+    if movie not in user.favorite_movies:
+        raise HTTPException(status_code=400, detail="Movie not in favorites")
+
+    user.favorite_movies.remove(movie)
+    db.add(user)
+    await db.commit()
+    await db.refresh(user)
+
+    return {"detail": f"Movie '{movie.name}' removed from favorites"}
+
+
+@router.get("/favorites/", tags=["Likes, comments and favourites"])
+async def get_favorites(
+    limit: int = 10,
+    offset: int = 0,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+    year: int | None = None,
+    imdb: float | None = None,
+    meta_score: float | None = None,
+    search: str | None = None,
+    year_sort: bool = False,
+    imdb_sort: bool = False,
+    meta_score_sort: bool = False,
+):
+    query = (
+        select(Movies)
+        .join(user_favorites, Movies.id == user_favorites.c.movie_id)
+        .where(user_favorites.c.user_id == current_user.id)
+        .options(
+            selectinload(Movies.stars),
+            selectinload(Movies.genres),
+            selectinload(Movies.directors),
+        )
+        .offset(offset)
+        .limit(limit)
+    )
+
+    if year is not None:
+        query = query.filter(Movies.year == year)
+    if imdb is not None:
+        query = query.filter(Movies.imdb == imdb)
+    if meta_score is not None:
+        query = query.filter(Movies.meta_score == meta_score)
+
+    order_by_list = []
+    if year_sort:
+        order_by_list.append(Movies.year.desc())
+    if imdb_sort:
+        order_by_list.append(Movies.imdb.desc())
+    if meta_score_sort:
+        order_by_list.append(Movies.meta_score.desc())
+    if order_by_list:
+        query = query.order_by(*order_by_list)
+
+    if search:
+        search_pattern = f"%{search}%"
+        query = query.filter(
+            or_(
+                Movies.name.ilike(search_pattern),
+                Movies.description.ilike(search_pattern),
+                Movies.stars.any(Stars.name.ilike(search_pattern)),
+                Movies.directors.any(Directors.name.ilike(search_pattern)),
+            )
+        )
+
+    result = await db.execute(query)
+    movies = result.scalars().all()
+    return movies
+
+
+@router.post("/rate/{movie_id}", tags=["Likes, comments and favourites"])
+async def rate_movie(
+    movie_id: int,
+    rating_data: MovieRatingCreate,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    result = await db.execute(
+        select(User)
+        .options(selectinload(User.favorite_movies))
+        .where(User.id == current_user.id)
+    )
+    user = result.scalars().first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    result = await db.execute(
+        select(Movies).where(Movies.id == movie_id)
+    )
+    movie = result.scalars().first()
+    if not movie:
+        raise HTTPException(status_code=404, detail="Movie not found")
+
+    result = await db.execute(
+        select(MovieRating)
+        .where(MovieRating.movie_id == movie_id)
+        .where(MovieRating.user_id == current_user.id)
+    )
+    existing_rating = result.scalars().first()
+
+    if existing_rating:
+        existing_rating.rating = rating_data.rating
+    else:
+        new_rating = MovieRating(
+            user_id=current_user.id,
+            movie_id=movie_id,
+            rating=rating_data.rating
+        )
+        db.add(new_rating)
+
+    await db.commit()
+    return {"detail": f"Movie '{movie.name}' rated {rating_data.rating}/10"}
+
+
