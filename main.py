@@ -3,7 +3,8 @@ from fastapi import FastAPI
 
 from database import engine
 from models.movies import Base
-from routers import movies
+from routers import movies, users, auth
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -14,3 +15,5 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(movies.router)
+app.include_router(users.router)
+app.include_router(auth.router)
