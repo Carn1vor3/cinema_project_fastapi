@@ -8,10 +8,11 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database import Base
 from models.base import movies_stars, movies_genres, movies_directors, user_favorites
-from models.carts import CartItems
+
 
 if TYPE_CHECKING:
     from models.users import User
+    from models.carts import CartItems
 
 
 class Movies(Base):

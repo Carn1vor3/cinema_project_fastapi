@@ -176,7 +176,7 @@ async def comment_movie(
     return await add_comment_movie(user, data.movie_id, data.content, db)
 
 
-@router.post("/favorites/{movie_id}")
+@router.post("/favorites/{movie_id}", tags=["Likes, comments and favourites"])
 async def add_favorite(
     movie_id: int,
     current_user: User = Depends(get_current_user),
@@ -207,7 +207,7 @@ async def add_favorite(
     return {"detail": f"Movie '{movie.name}' added to favorites"}
 
 
-@router.delete("/favorites/{movie_id}")
+@router.delete("/favorites/{movie_id}", tags=["Likes, comments and favourites"])
 async def remove_favorite(
     movie_id: int,
     current_user: User = Depends(get_current_user),
