@@ -11,8 +11,6 @@ async def get_current_admin(
 ):
     if current_user.group.name != UserGroupEnum.ADMIN:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only admins can access"
+            status_code=status.HTTP_403_FORBIDDEN, detail="Only admins can access"
         )
     return current_user
-

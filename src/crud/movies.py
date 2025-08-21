@@ -344,15 +344,12 @@ async def get_genres(db: AsyncSession):
 
 async def get_genre_by_id(db: AsyncSession, genre_id: int) -> Genres | None:
     result = await db.execute(
-        select(Genres)
-        .options(selectinload(Genres.movies))
-        .where(Genres.id == genre_id)
+        select(Genres).options(selectinload(Genres.movies)).where(Genres.id == genre_id)
     )
     genre = result.scalar_one_or_none()
     if not genre:
         raise HTTPException(status_code=404, detail="Genre not found")
     return genre
-
 
 
 async def create_genre(new_genre: GenresCreateSchema, db: AsyncSession):

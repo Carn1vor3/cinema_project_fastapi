@@ -12,7 +12,6 @@ async def login(data: LoginRequest, db: AsyncSession = Depends(get_db)):
     return await login_user(data.email, data.password, db)
 
 
-
 @router.post("/logout")
 async def logout(refresh_token: str, db: AsyncSession = Depends(get_db)):
     return await logout_user(refresh_token, db)

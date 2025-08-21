@@ -3,14 +3,15 @@ from datetime import datetime, UTC
 from typing import TYPE_CHECKING
 from uuid import UUID
 
-from sqlalchemy import String, ForeignKey, Table, Column, Text, CheckConstraint
+from sqlalchemy import String, ForeignKey, Text, CheckConstraint, DECIMAL
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database import Base
 from models.base import movies_stars, movies_genres, movies_directors, user_favorites
+from models.carts import CartItems
+
 if TYPE_CHECKING:
     from models.users import User
-
 
 
 class Movies(Base):
@@ -26,7 +27,7 @@ class Movies(Base):
     meta_score: Mapped[float] = mapped_column(nullable=True)
     gross: Mapped[float] = mapped_column(nullable=True)
     description: Mapped[str] = mapped_column(nullable=False)
-    price: Mapped[decimal.Decimal] = mapped_column(nullable=True)
+    price: Mapped[decimal.Decimal] = mapped_column(DECIMAL(10, 2), nullable=True)
     certification_id: Mapped[int] = mapped_column(
         ForeignKey("certifications.id"), nullable=False
     )
@@ -44,11 +45,12 @@ class Movies(Base):
     likes: Mapped[list["MovieLike"]] = relationship(back_populates="movie")
     comments: Mapped[list["MovieComment"]] = relationship(back_populates="movie")
     favorited_by: Mapped[list["User"]] = relationship(
-        "User",
-        secondary=user_favorites,
-        back_populates="favorite_movies"
+        "User", secondary=user_favorites, back_populates="favorite_movies"
     )
-    ratings: Mapped[list["MovieRating"]] = relationship("MovieRating", back_populates="movie")
+    ratings: Mapped[list["MovieRating"]] = relationship(
+        "MovieRating", back_populates="movie"
+    )
+    items: Mapped[list["CartItems"]] = relationship("CartItems", back_populates="movie")
 
 
 class Certifications(Base):
@@ -126,7 +128,7 @@ class MovieRating(Base):
     rating: Mapped[int] = mapped_column(nullable=False)
 
     __table_args__ = (
-        CheckConstraint('rating >= 1 AND rating <= 10', name='rating_range'),
+        CheckConstraint("rating >= 1 AND rating <= 10", name="rating_range"),
     )
 
     user: Mapped["User"] = relationship("User")

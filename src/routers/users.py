@@ -7,7 +7,13 @@ from database import get_db
 from dependencies import get_current_admin
 from models.users import User, UserGroup
 from schemas.users import UserCreate, UserOut, UserUpdateAdmin, UserPasswordUpdate
-from services.users import register_user, activate_user, resend_activation, request_password_reset, reset_password
+from services.users import (
+    register_user,
+    activate_user,
+    resend_activation,
+    request_password_reset,
+    reset_password,
+)
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -33,7 +39,9 @@ async def password_reset_request(email: str, db: AsyncSession = Depends(get_db))
 
 
 @router.post("/password-reset/{token}")
-async def password_reset(token: str, password_data: UserPasswordUpdate, db: AsyncSession = Depends(get_db)):
+async def password_reset(
+    token: str, password_data: UserPasswordUpdate, db: AsyncSession = Depends(get_db)
+):
     return await reset_password(token=token, new_password=password_data.password, db=db)
 
 
@@ -73,7 +81,5 @@ async def admin_update_user(
             "id": user.id,
             "group": user.group.name,
             "is_active": user.is_active,
-        }
+        },
     }
-
-

@@ -35,7 +35,12 @@ from schemas.movies import (
     GenresUpdateSchema,
     StarsListSchema,
     StarsCreateSchema,
-    StarsUpdateSchema, GenresWithCountSchema, GenresDetailSchema, MovieLikeCreate, MovieCommentOut, MovieCommentCreate,
+    StarsUpdateSchema,
+    GenresWithCountSchema,
+    GenresDetailSchema,
+    MovieLikeCreate,
+    MovieCommentOut,
+    MovieCommentCreate,
     MovieRatingCreate,
 )
 from services.movies import toggle_like_movie, add_comment_movie
@@ -152,12 +157,22 @@ async def put_stars(
 
 
 @router.post("/like-toggle", tags=["Likes, comments and favourites"])
-async def like_toggle(data: MovieLikeCreate, user=Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+async def like_toggle(
+    data: MovieLikeCreate,
+    user=Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
     return await toggle_like_movie(user, data.movie_id, db)
 
 
-@router.post("/comment", response_model=MovieCommentOut, tags=["Likes, comments and favourites"])
-async def comment_movie(data: MovieCommentCreate, user=Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+@router.post(
+    "/comment", response_model=MovieCommentOut, tags=["Likes, comments and favourites"]
+)
+async def comment_movie(
+    data: MovieCommentCreate,
+    user=Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
     return await add_comment_movie(user, data.movie_id, data.content, db)
 
 
@@ -165,7 +180,7 @@ async def comment_movie(data: MovieCommentCreate, user=Depends(get_current_user)
 async def add_favorite(
     movie_id: int,
     current_user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ):
     result = await db.execute(
         select(User)
@@ -196,7 +211,7 @@ async def add_favorite(
 async def remove_favorite(
     movie_id: int,
     current_user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ):
     result = await db.execute(
         select(User)
@@ -288,7 +303,7 @@ async def rate_movie(
     movie_id: int,
     rating_data: MovieRatingCreate,
     current_user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ):
     result = await db.execute(
         select(User)
@@ -299,9 +314,7 @@ async def rate_movie(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    result = await db.execute(
-        select(Movies).where(Movies.id == movie_id)
-    )
+    result = await db.execute(select(Movies).where(Movies.id == movie_id))
     movie = result.scalars().first()
     if not movie:
         raise HTTPException(status_code=404, detail="Movie not found")
@@ -317,13 +330,9 @@ async def rate_movie(
         existing_rating.rating = rating_data.rating
     else:
         new_rating = MovieRating(
-            user_id=current_user.id,
-            movie_id=movie_id,
-            rating=rating_data.rating
+            user_id=current_user.id, movie_id=movie_id, rating=rating_data.rating
         )
         db.add(new_rating)
 
     await db.commit()
     return {"detail": f"Movie '{movie.name}' rated {rating_data.rating}/10"}
-
-

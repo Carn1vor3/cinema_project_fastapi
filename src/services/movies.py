@@ -12,7 +12,9 @@ async def toggle_like_movie(user: User, movie_id: int, db: AsyncSession):
         raise ValueError("Movie not found")
 
     result = await db.execute(
-        select(MovieLike).where(MovieLike.user_id == user.id, MovieLike.movie_id == movie_id)
+        select(MovieLike).where(
+            MovieLike.user_id == user.id, MovieLike.movie_id == movie_id
+        )
     )
     existing_like = result.scalar_one_or_none()
 

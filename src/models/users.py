@@ -6,6 +6,7 @@ from sqlalchemy.orm import mapped_column, Mapped, relationship
 
 from database import Base
 from models.base import user_favorites
+from models.carts import Carts
 from models.movies import Movies, MovieRating
 
 
@@ -20,12 +21,13 @@ class UserGroupEnum(enum.Enum):
     ADMIN = "ADMIN"
 
 
-
 class UserGroup(Base):
     __tablename__ = "user_group"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[UserGroupEnum] = mapped_column(Enum(UserGroupEnum), nullable=False, unique=True)
+    name: Mapped[UserGroupEnum] = mapped_column(
+        Enum(UserGroupEnum), nullable=False, unique=True
+    )
 
     users: Mapped[list["User"]] = relationship("User", back_populates="group")
 
@@ -38,10 +40,14 @@ class User(Base):
     hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
     is_active: Mapped[bool] = mapped_column(nullable=False, default=False)
     created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(UTC))
-    updated_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(UTC), onupdate=lambda: datetime.now(UTC))
+    updated_at: Mapped[datetime] = mapped_column(
+        default=lambda: datetime.now(UTC), onupdate=lambda: datetime.now(UTC)
+    )
     group_id: Mapped[int] = mapped_column(ForeignKey("user_group.id"), nullable=False)
     group: Mapped["UserGroup"] = relationship("UserGroup", back_populates="users")
-    user_profile: Mapped["UserProfile"] = relationship("UserProfile", back_populates="user", uselist=False)
+    user_profile: Mapped["UserProfile"] = relationship(
+        "UserProfile", back_populates="user", uselist=False
+    )
 
     activation_token: Mapped["ActivationToken"] = relationship(
         "ActivationToken", back_populates="user", uselist=False
@@ -49,13 +55,16 @@ class User(Base):
     password_reset_token: Mapped["PasswordResetToken"] = relationship(
         "PasswordResetToken", back_populates="user", uselist=False
     )
-    refresh_token: Mapped[list["RefreshToken"]] = relationship("RefreshToken", back_populates="user")
-    favorite_movies: Mapped[list["Movies"]] = relationship(
-        "Movies",
-        secondary=user_favorites,
-        back_populates="favorited_by"
+    refresh_token: Mapped[list["RefreshToken"]] = relationship(
+        "RefreshToken", back_populates="user"
     )
-    ratings: Mapped[list["MovieRating"]] = relationship("MovieRating", back_populates="user")
+    favorite_movies: Mapped[list["Movies"]] = relationship(
+        "Movies", secondary=user_favorites, back_populates="favorited_by"
+    )
+    ratings: Mapped[list["MovieRating"]] = relationship(
+        "MovieRating", back_populates="user"
+    )
+    carts: Mapped["Carts"] = relationship("Carts", back_populates="user", uselist=False)
 
 
 class UserProfile(Base):
@@ -78,20 +87,28 @@ class ActivationToken(Base):
     __tablename__ = "activation_token"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), unique=True, nullable=False)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("user.id"), unique=True, nullable=False
+    )
     user: Mapped["User"] = relationship("User", back_populates="activation_token")
     token: Mapped[str] = mapped_column(String(255), nullable=False)
-    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
 
 
 class PasswordResetToken(Base):
     __tablename__ = "password_reset_token"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), unique=True, nullable=False)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("user.id"), unique=True, nullable=False
+    )
     user: Mapped["User"] = relationship("User", back_populates="password_reset_token")
     token: Mapped[str] = mapped_column(String(255), nullable=False)
-    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
 
 
 class RefreshToken(Base):
@@ -103,4 +120,6 @@ class RefreshToken(Base):
     user: Mapped["User"] = relationship("User", back_populates="refresh_token")
 
     token: Mapped[str] = mapped_column(String(255), nullable=False)
-    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )

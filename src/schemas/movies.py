@@ -149,9 +149,11 @@ class GenresDetailSchema(BaseModel):
 class MovieLikeCreate(BaseModel):
     movie_id: int
 
+
 class MovieCommentCreate(BaseModel):
     movie_id: int
     content: str
+
 
 class MovieCommentOut(BaseModel):
     id: int

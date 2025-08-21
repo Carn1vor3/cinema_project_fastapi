@@ -5,14 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="640195d1-e107-4bdf-90b3-7a3510a22167" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/services/movies.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/carts.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/schemas/carts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cinema_project.db" beforeDir="false" afterPath="$PROJECT_DIR$/cinema_project.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/security.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/security.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/crud/movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/crud/movies.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dependencies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/movies.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routers/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/auth.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routers/movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/movies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routers/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/users.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/schemas/movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/schemas/movies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/email.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/email.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/movies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/users.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +55,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "movie__likes__comments__favourites",
+    "git-widget-placeholder": "shopping__cart",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -103,6 +112,8 @@
       <workItem from="1755530499526" duration="377000" />
       <workItem from="1755595208161" duration="8008000" />
       <workItem from="1755689687499" duration="5345000" />
+      <workItem from="1755699646751" duration="3918000" />
+      <workItem from="1755768313271" duration="3236000" />
     </task>
     <servers />
   </component>
@@ -110,6 +121,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/cinema_project_fastapi$cinema_project_fastapi.coverage" NAME="cinema_project_fastapi Coverage Results" MODIFIED="1755696943911" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/cinema_project_fastapi$cinema_project_fastapi.coverage" NAME="cinema_project_fastapi Coverage Results" MODIFIED="1755703480447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
