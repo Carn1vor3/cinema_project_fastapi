@@ -8,6 +8,7 @@ from models.orders import OrderStatusEnum
 class OrderCreateSchema(BaseModel):
     pass
 
+
 class CreateOrderRequest(BaseModel):
     movies_ids: List[int]
 
@@ -18,6 +19,7 @@ class OrderItemSchema(BaseModel):
 
     class Config:
         orm_mode = True
+
 
 class OrderSchema(BaseModel):
     id: int

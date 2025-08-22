@@ -55,6 +55,7 @@ class Movies(Base):
     order_items = relationship("OrderItems", back_populates="movie")
     is_available: Mapped[bool] = mapped_column(nullable=False, default=True)
 
+
 class Certifications(Base):
     __tablename__ = "certifications"
 

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stripe Checkout</title>
+</head>
+<body>
+    <h1>Redirecting to payment...</h1>
+    <script>
+        fetch("/payments/checkout/{{ order_id }}", { method: "POST" })
+        .then(res => res.json())
+        .then(data => {
+            window.location.href = data.checkout_url;
+        });
+    </script>
+</body>
+</html>

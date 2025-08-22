@@ -7,6 +7,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database import Base
 from models.movies import Movies
+from models.payment import PaymentItems
+from models.payment import Payments
 from models.users import User
 
 
@@ -21,16 +23,23 @@ class Orders(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
-    created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        default=lambda: datetime.now(timezone.utc), nullable=False
+    )
     status: Mapped[OrderStatusEnum] = mapped_column(
         Enum(OrderStatusEnum, name="order_status_enum"),
         default=OrderStatusEnum.PENDING,
-        nullable=False
+        nullable=False,
     )
     total_amount: Mapped[Decimal] = mapped_column(DECIMAL(10, 2), nullable=True)
 
     user: Mapped["User"] = relationship("User", back_populates="orders")
-    items: Mapped[list["OrderItems"]] = relationship("OrderItems", back_populates="order")
+    items: Mapped[list["OrderItems"]] = relationship(
+        "OrderItems", back_populates="order"
+    )
+    payments: Mapped[list["Payments"]] = relationship(
+        "Payments", back_populates="order", cascade="all, delete-orphan"
+    )
 
 
 class OrderItems(Base):
@@ -43,3 +52,7 @@ class OrderItems(Base):
 
     order: Mapped["Orders"] = relationship("Orders", back_populates="items")
     movie: Mapped["Movies"] = relationship("Movies", back_populates="order_items")
+
+    payment_items: Mapped["PaymentItems"] = relationship(
+        "PaymentItems", back_populates="order_items"
+    )

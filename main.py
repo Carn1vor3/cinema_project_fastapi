@@ -3,7 +3,7 @@ from fastapi import FastAPI
 
 from database import engine
 from models.movies import Base
-from routers import movies, users, auth, carts, orders
+from routers import movies, users, auth, carts, orders, payments, stripe_webhook
 
 
 @asynccontextmanager
@@ -19,3 +19,5 @@ app.include_router(users.router)
 app.include_router(auth.router)
 app.include_router(carts.router)
 app.include_router(orders.router)
+app.include_router(payments.router)
+app.include_router(stripe_webhook.router)

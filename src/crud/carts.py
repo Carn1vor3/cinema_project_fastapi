@@ -17,8 +17,9 @@ async def add_movie_to_cart(db: AsyncSession, user_id: int, movie_id: int):
         await db.flush()
 
     existing_item = await db.scalar(
-        select(CartItems)
-        .where(CartItems.cart_id == cart.id, CartItems.movie_id == movie_id)
+        select(CartItems).where(
+            CartItems.cart_id == cart.id, CartItems.movie_id == movie_id
+        )
     )
     if existing_item:
         raise HTTPException(status_code=400, detail="Movie already in your cart.")
@@ -28,13 +29,16 @@ async def add_movie_to_cart(db: AsyncSession, user_id: int, movie_id: int):
     await db.commit()
     return item
 
+
 async def remove_movie_from_cart(db: AsyncSession, user_id: int, movie_id: int):
     cart = await db.scalar(select(Carts).where(Carts.user_id == user_id))
     if not cart:
         raise HTTPException(status_code=404, detail="Cart not found.")
 
     item = await db.scalar(
-        select(CartItems).where(CartItems.cart_id == cart.id, CartItems.movie_id == movie_id)
+        select(CartItems).where(
+            CartItems.cart_id == cart.id, CartItems.movie_id == movie_id
+        )
     )
     if not item:
         raise HTTPException(status_code=404, detail="Movie not in cart.")
@@ -42,6 +46,7 @@ async def remove_movie_from_cart(db: AsyncSession, user_id: int, movie_id: int):
     await db.delete(item)
     await db.commit()
     return {"message": "Movie removed from cart."}
+
 
 async def get_cart_items(db: AsyncSession, user_id: int):
     cart = await db.scalar(
@@ -55,14 +60,17 @@ async def get_cart_items(db: AsyncSession, user_id: int):
     result = []
     for item in cart.items:
         movie = item.movie
-        result.append({
-            "title": movie.name,
-            "price": movie.price,
-            "year": movie.year,
-            "genres": [g.name for g in movie.genres],
-            "added_at": item.added_at,
-        })
+        result.append(
+            {
+                "title": movie.name,
+                "price": movie.price,
+                "year": movie.year,
+                "genres": [g.name for g in movie.genres],
+                "added_at": item.added_at,
+            }
+        )
     return result
+
 
 async def clear_cart(db: AsyncSession, user_id: int):
     cart = await db.scalar(select(Carts).where(Carts.user_id == user_id))
@@ -73,11 +81,16 @@ async def clear_cart(db: AsyncSession, user_id: int):
     await db.commit()
     return {"message": "Cart cleared."}
 
+
 async def get_user_cart_for_admin(db: AsyncSession, user_id: int):
     cart = await db.scalar(
         select(Carts)
         .where(Carts.user_id == user_id)
-        .options(selectinload(Carts.items).selectinload(CartItems.movie).selectinload(Movies.genres))
+        .options(
+            selectinload(Carts.items)
+            .selectinload(CartItems.movie)
+            .selectinload(Movies.genres)
+        )
     )
     if not cart or not cart.items:
         return []
@@ -85,11 +98,13 @@ async def get_user_cart_for_admin(db: AsyncSession, user_id: int):
     result = []
     for item in cart.items:
         movie = item.movie
-        result.append({
-            "title": movie.name,
-            "price": movie.price,
-            "year": movie.year,
-            "genres": [g.name for g in movie.genres],
-            "added_at": item.added_at,
-        })
+        result.append(
+            {
+                "title": movie.name,
+                "price": movie.price,
+                "year": movie.year,
+                "genres": [g.name for g in movie.genres],
+                "added_at": item.added_at,
+            }
+        )
     return result
