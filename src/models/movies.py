@@ -52,7 +52,8 @@ class Movies(Base):
         "MovieRating", back_populates="movie"
     )
     items: Mapped[list["CartItems"]] = relationship("CartItems", back_populates="movie")
-
+    order_items = relationship("OrderItems", back_populates="movie")
+    is_available: Mapped[bool] = mapped_column(nullable=False, default=True)
 
 class Certifications(Base):
     __tablename__ = "certifications"
@@ -116,7 +117,7 @@ class MovieComment(Base):
     content: Mapped[str] = mapped_column(Text, nullable=False)
 
     created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(UTC))
-    user: Mapped["User"] = relationship("User")
+    user: Mapped["User"] = relationship("User", back_populates="comments")
     movie: Mapped["Movies"] = relationship("Movies", back_populates="comments")
 
 

@@ -7,7 +7,7 @@ from sqlalchemy.orm import mapped_column, Mapped, relationship
 from database import Base
 from models.base import user_favorites
 from models.carts import Carts
-from models.movies import Movies, MovieRating
+from models.movies import Movies, MovieRating, MovieComment
 
 
 class GenderEnum(enum.Enum):
@@ -65,6 +65,10 @@ class User(Base):
         "MovieRating", back_populates="user"
     )
     carts: Mapped["Carts"] = relationship("Carts", back_populates="user", uselist=False)
+    orders = relationship("Orders", back_populates="user")
+    comments: Mapped[list["MovieComment"]] = relationship(
+        "MovieComment", back_populates="user"
+    )
 
 
 class UserProfile(Base):
