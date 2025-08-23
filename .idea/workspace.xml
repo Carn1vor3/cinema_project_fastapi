@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="640195d1-e107-4bdf-90b3-7a3510a22167" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/tasks/activation_tokens.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="640195d1-e107-4bdf-90b3-7a3510a22167" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -101,7 +98,7 @@
       <workItem from="1755768313271" duration="5520000" />
       <workItem from="1755848683182" duration="11504000" />
       <workItem from="1755876879477" duration="12871000" />
-      <workItem from="1755942590920" duration="308000" />
+      <workItem from="1755942590920" duration="680000" />
     </task>
     <servers />
   </component>
