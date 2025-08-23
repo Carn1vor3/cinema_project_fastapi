@@ -13,6 +13,7 @@ async def lifespan(app: FastAPI):
     yield
     await engine.dispose()
 
+
 app = FastAPI(lifespan=lifespan)
 app.include_router(movies.router)
 app.include_router(users.router)

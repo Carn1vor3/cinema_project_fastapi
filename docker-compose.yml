@@ -1,10 +1,8 @@
-version: "3.9"
-
 services:
   api:
     build: .
     container_name: api
-    command: sh -c "PYTHONPATH=/app uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload"
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
       - .:/app
       - sqlite_data:/app/db

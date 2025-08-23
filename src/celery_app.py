@@ -6,7 +6,7 @@ celery_app = Celery(
     "cinema_app",
     broker=CELERY_BROKER_URL,
     backend=CELERY_RESULT_BACKEND,
-    include=["src.tasks.activation_tokens"]
+    include=["src.tasks.activation_tokens"],
 )
 
 celery_app.conf.beat_schedule = {

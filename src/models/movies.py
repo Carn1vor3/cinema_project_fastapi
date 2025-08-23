@@ -7,7 +7,12 @@ from sqlalchemy import String, ForeignKey, Text, CheckConstraint, DECIMAL
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
-from src.models.base import movies_stars, movies_genres, movies_directors, user_favorites
+from src.models.base import (
+    movies_stars,
+    movies_genres,
+    movies_directors,
+    user_favorites,
+)
 
 
 if TYPE_CHECKING:

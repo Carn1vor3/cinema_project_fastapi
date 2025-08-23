@@ -5,9 +5,11 @@ from src.database import AsyncSessionLocal
 from src.models.users import ActivationToken
 import asyncio
 
+
 @shared_task
 def delete_expired_tokens():
     return asyncio.run(_delete_expired_tokens())
+
 
 async def _delete_expired_tokens():
     async with AsyncSessionLocal() as session:
