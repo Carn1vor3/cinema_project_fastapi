@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="640195d1-e107-4bdf-90b3-7a3510a22167" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/models/payment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routers/payments.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routers/stripe_webhook.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/schemas/payments.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/payments.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/templates/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/tasks/activation_tokens.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cinema_project.db" beforeDir="false" afterPath="$PROJECT_DIR$/cinema_project.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/orders.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/users.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/orders.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +40,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "payment",
+    "git-widget-placeholder": "implement__celery__beat",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -111,6 +101,7 @@
       <workItem from="1755768313271" duration="5520000" />
       <workItem from="1755848683182" duration="11504000" />
       <workItem from="1755876879477" duration="12871000" />
+      <workItem from="1755942590920" duration="308000" />
     </task>
     <servers />
   </component>
