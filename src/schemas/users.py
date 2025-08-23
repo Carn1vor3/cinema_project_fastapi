@@ -4,7 +4,7 @@ from pydantic import BaseModel, EmailStr, validator, field_validator
 from datetime import date
 from typing import Optional
 
-from models.users import UserGroupEnum
+from src.models.users import UserGroupEnum
 
 
 class UserCreate(BaseModel):

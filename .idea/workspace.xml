@@ -4,7 +4,40 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="640195d1-e107-4bdf-90b3-7a3510a22167" name="Changes" comment="" />
+    <list default="true" id="640195d1-e107-4bdf-90b3-7a3510a22167" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cinema_project.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/cinema_project.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/celery_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/celery_app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/crud/carts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/crud/carts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/crud/movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/crud/movies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dependencies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/carts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/carts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/movies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/payment.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/payment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routers/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routers/carts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/carts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routers/movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/movies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routers/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routers/payments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/payments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routers/stripe_webhook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/stripe_webhook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routers/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schemas/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/schemas/orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schemas/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/schemas/users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/movies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/payments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/payments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tasks/activation_tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tasks/activation_tokens.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,7 +70,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "implement__celery__beat",
+    "git-widget-placeholder": "develop",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -48,8 +81,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\DJango\DjangoProject\cinema_project_fastapi" />
       <recent name="E:\DJango\DjangoProject\cinema_project_fastapi\src" />
+      <recent name="E:\DJango\DjangoProject\cinema_project_fastapi\db" />
+      <recent name="E:\DJango\DjangoProject\cinema_project_fastapi" />
       <recent name="E:\DJango\DjangoProject\cinema_project_fastapi\src\schemas" />
     </key>
   </component>

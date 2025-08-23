@@ -2,17 +2,16 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 
-from database import get_db
-from dependencies import get_current_user, get_current_admin
-from models.orders import Orders
-from services.orders import (
+from src.database import get_db
+from src.dependencies import get_current_user, get_current_admin
+from src.services.orders import (
     create_order_for_user,
     cancel_order_for_user,
     get_orders_for_user,
     get_all_orders,
 )
-from models.users import User
-from schemas.orders import OrderSchema, CreateOrderResponse, CreateOrderRequest
+from src.models.users import User
+from src.schemas.orders import OrderSchema, CreateOrderResponse, CreateOrderRequest
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
 

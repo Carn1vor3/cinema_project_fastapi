@@ -9,11 +9,11 @@ from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
 from starlette import status
 
-from database import get_db
-from models.users import User, UserProfile
-from models.users import ActivationToken, PasswordResetToken, RefreshToken
-from schemas.users import UserCreate, UserOut
-from core.security import (
+from src.database import get_db
+from src.models.users import User, UserProfile
+from src.models.users import ActivationToken, PasswordResetToken, RefreshToken
+from src.schemas.users import UserCreate, UserOut
+from src.core.security import (
     hash_password,
     verify_password,
     create_access_token,
@@ -23,7 +23,7 @@ from core.security import (
     ALGORITHM,
     SECRET_KEY,
 )
-from services.email import send_activation_email, send_password_reset_email
+from src.services.email import send_activation_email, send_password_reset_email
 
 ACTIVATION_TOKEN_EXPIRE_HOURS = 24
 PASSWORD_RESET_TOKEN_EXPIRE_HOURS = 24

@@ -4,11 +4,11 @@ from sqlalchemy import select, delete
 from sqlalchemy.orm import selectinload
 from datetime import datetime, UTC
 
-from database import get_db
-from models.carts import Carts, CartItems
-from models.movies import Movies
-from models.users import User, UserGroupEnum
-from services.users import get_current_user
+from src.database import get_db
+from src.models.carts import Carts, CartItems
+from src.models.movies import Movies
+from src.models.users import User, UserGroupEnum
+from src.services.users import get_current_user
 
 router = APIRouter(prefix="/cart", tags=["Cart"])
 

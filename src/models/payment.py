@@ -5,11 +5,11 @@ from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey, DECIMAL, Enum
 from sqlalchemy.orm import mapped_column, Mapped, relationship
-from database import Base
-from models.users import User
+from src.database import Base
+from src.models.users import User
 
 if TYPE_CHECKING:
-    from models.orders import Orders, OrderItems
+    from src.models.orders import Orders, OrderItems
 
 
 class StatusEnum(str, enum.Enum):

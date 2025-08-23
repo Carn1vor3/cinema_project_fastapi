@@ -1,6 +1,6 @@
 from sqlalchemy import Table, ForeignKey, Column
 
-from database import Base
+from src.database import Base
 
 user_favorites = Table(
     "user_favorites",

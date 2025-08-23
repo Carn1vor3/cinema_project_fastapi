@@ -1,9 +1,6 @@
 from fastapi import Depends, HTTPException, status
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.future import select
-from models.users import User, UserGroupEnum
-from database import get_db
-from services.users import get_current_user
+from src.models.users import User, UserGroupEnum
+from src.services.users import get_current_user
 
 
 async def get_current_admin(

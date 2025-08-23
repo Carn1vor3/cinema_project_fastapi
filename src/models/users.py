@@ -5,13 +5,13 @@ from typing import TYPE_CHECKING
 from sqlalchemy import String, ForeignKey, Enum, DateTime
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 
-from database import Base
-from models.base import user_favorites
-from models.carts import Carts
-from models.movies import Movies, MovieRating, MovieComment
+from src.database import Base
+from src.models.base import user_favorites
+from src.models.carts import Carts
+from src.models.movies import Movies, MovieRating, MovieComment
 
 if TYPE_CHECKING:
-    from models.payment import Payments
+    from src.models.payment import Payments
 
 
 class GenderEnum(enum.Enum):

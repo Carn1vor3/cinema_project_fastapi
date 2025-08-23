@@ -2,7 +2,6 @@ from datetime import datetime
 from decimal import Decimal
 from typing import List, Optional, Dict
 from pydantic import BaseModel, Field
-from models.orders import OrderStatusEnum
 
 
 class OrderCreateSchema(BaseModel):

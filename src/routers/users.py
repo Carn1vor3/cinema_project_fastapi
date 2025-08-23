@@ -3,11 +3,11 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from database import get_db
-from dependencies import get_current_admin
-from models.users import User, UserGroup
-from schemas.users import UserCreate, UserOut, UserUpdateAdmin, UserPasswordUpdate
-from services.users import (
+from src.database import get_db
+from src.dependencies import get_current_admin
+from src.models.users import User, UserGroup
+from src.schemas.users import UserCreate, UserOut, UserUpdateAdmin, UserPasswordUpdate
+from src.services.users import (
     register_user,
     activate_user,
     resend_activation,

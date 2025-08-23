@@ -3,8 +3,8 @@ from sqlalchemy import select, or_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from models.movies import Movies, Stars, Genres, Directors
-from schemas.movies import (
+from src.models.movies import Movies, Stars, Genres, Directors
+from src.schemas.movies import (
     MovieListSchema,
     MovieCreateSchema,
     MovieUpdateSchema,
@@ -18,7 +18,7 @@ from schemas.movies import (
 )
 
 from typing import List, Optional
-from schemas.movies import MovieListSchema
+from src.schemas.movies import MovieListSchema
 
 
 ### Movie Model CRUD ###

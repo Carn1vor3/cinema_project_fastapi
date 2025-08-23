@@ -1,8 +1,8 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from models.movies import Movies, MovieLike, MovieComment
-from models.users import User
+from src.models.movies import Movies, MovieLike, MovieComment
+from src.models.users import User
 
 
 async def toggle_like_movie(user: User, movie_id: int, db: AsyncSession):

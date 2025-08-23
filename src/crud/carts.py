@@ -5,8 +5,8 @@ from datetime import datetime, UTC
 
 from sqlalchemy.orm import selectinload
 
-from models.carts import Carts, CartItems
-from models.movies import Movies
+from src.models.carts import Carts, CartItems
+from src.models.movies import Movies
 
 
 async def add_movie_to_cart(db: AsyncSession, user_id: int, movie_id: int):

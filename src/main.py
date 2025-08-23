@@ -1,9 +1,9 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
-from database import engine
-from models.movies import Base
-from routers import movies, users, auth, carts, orders, payments, stripe_webhook
+from src.database import engine
+from src.models.movies import Base
+from src.routers import movies, users, auth, carts, orders, payments, stripe_webhook
 
 
 @asynccontextmanager

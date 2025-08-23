@@ -4,11 +4,11 @@ from typing import List, TYPE_CHECKING
 from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, relationship, mapped_column
 
-from database import Base
+from src.database import Base
 
 if TYPE_CHECKING:
-    from models.movies import Movies
-    from models.users import User
+    from src.models.movies import Movies
+    from src.models.users import User
 
 
 __table_args__ = (UniqueConstraint("cart_id", "movie_id", name="uix_cart_movie"),)

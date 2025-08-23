@@ -5,11 +5,11 @@ from fastapi import APIRouter, Request, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
-from database import get_db
+from src.database import get_db
 import stripe
 
-from models.payment import Payments, StatusEnum
-from models.orders import Orders, OrderStatusEnum
+from src.models.payment import Payments, StatusEnum
+from src.models.orders import OrderStatusEnum
 
 load_dotenv()
 

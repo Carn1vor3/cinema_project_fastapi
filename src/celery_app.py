@@ -1,8 +1,13 @@
 from celery import Celery
+from celery.schedules import crontab
+from src.settings import CELERY_BROKER_URL, CELERY_RESULT_BACKEND
 
-celery_app = Celery("cinema_app")
-celery_app.config_from_object("src.settings", namespace="CELERY")
-celery_app.autodiscover_tasks(["src.tasks"])
+celery_app = Celery(
+    "cinema_app",
+    broker=CELERY_BROKER_URL,
+    backend=CELERY_RESULT_BACKEND,
+    include=["src.tasks.activation_tokens"]
+)
 
 celery_app.conf.beat_schedule = {
     "delete-expired-activation-tokens": {
@@ -10,3 +15,5 @@ celery_app.conf.beat_schedule = {
         "schedule": 3600.0,
     },
 }
+
+celery_app.autodiscover_tasks(["src.tasks"])

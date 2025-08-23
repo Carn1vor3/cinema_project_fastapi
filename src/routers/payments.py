@@ -5,12 +5,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 from starlette.responses import HTMLResponse
 
-from database import get_db
-from models.payment import Payments
-from services.payments import get_payments_history, create_checkout_session
-from models.users import User
-from schemas.payments import PaymentSchema, PaymentConfirmRequest
-from services.users import get_current_user
+from src.database import get_db
+from src.services.payments import get_payments_history, create_checkout_session
+from src.models.users import User
+from src.schemas.payments import PaymentSchema, PaymentConfirmRequest
+from src.services.users import get_current_user
 
 router = APIRouter(prefix="/payments", tags=["Payments"])
 

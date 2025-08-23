@@ -6,13 +6,13 @@ from uuid import UUID
 from sqlalchemy import String, ForeignKey, Text, CheckConstraint, DECIMAL
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from database import Base
-from models.base import movies_stars, movies_genres, movies_directors, user_favorites
+from src.database import Base
+from src.models.base import movies_stars, movies_genres, movies_directors, user_favorites
 
 
 if TYPE_CHECKING:
-    from models.users import User
-    from models.carts import CartItems
+    from src.models.users import User
+    from src.models.carts import CartItems
 
 
 class Movies(Base):

@@ -5,11 +5,11 @@ from decimal import Decimal
 from sqlalchemy import ForeignKey, DECIMAL, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from database import Base
-from models.movies import Movies
-from models.payment import PaymentItems
-from models.payment import Payments
-from models.users import User
+from src.database import Base
+from src.models.movies import Movies
+from src.models.payment import PaymentItems
+from src.models.payment import Payments
+from src.models.users import User
 
 
 class OrderStatusEnum(str, enum.Enum):

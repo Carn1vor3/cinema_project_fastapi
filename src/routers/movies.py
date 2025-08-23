@@ -5,7 +5,7 @@ from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from crud.movies import (
+from src.crud.movies import (
     get_movies,
     get_movie_by_id,
     delete_movie,
@@ -22,11 +22,11 @@ from crud.movies import (
     delete_star,
     update_star,
 )
-from database import get_db
-from models.base import user_favorites
-from models.movies import Movies, Stars, Directors, MovieRating
-from models.users import User
-from schemas.movies import (
+from src.database import get_db
+from src.models.base import user_favorites
+from src.models.movies import Movies, Stars, Directors, MovieRating
+from src.models.users import User
+from src.schemas.movies import (
     MovieListSchema,
     MovieCreateSchema,
     MovieUpdateSchema,
@@ -43,8 +43,8 @@ from schemas.movies import (
     MovieCommentCreate,
     MovieRatingCreate,
 )
-from services.movies import toggle_like_movie, add_comment_movie
-from services.users import get_current_user
+from src.services.movies import toggle_like_movie, add_comment_movie
+from src.services.users import get_current_user
 
 router = APIRouter()
 

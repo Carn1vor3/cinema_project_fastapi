@@ -8,12 +8,12 @@ from typing import List, Optional
 
 from sqlalchemy.orm import selectinload
 
-from models.orders import Orders, OrderItems, OrderStatusEnum
-from models.users import User
-from models.movies import Movies
-from models.carts import Carts, CartItems
-from schemas.orders import OrderSchema, OrderItemSchema
-from services.email import send_order_confirmation_email
+from src.models.orders import Orders, OrderItems, OrderStatusEnum
+from src.models.users import User
+from src.models.movies import Movies
+from src.models.carts import Carts, CartItems
+from src.schemas.orders import OrderSchema, OrderItemSchema
+from src.services.email import send_order_confirmation_email
 
 
 async def create_order_for_user(
