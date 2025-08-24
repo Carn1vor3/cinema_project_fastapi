@@ -7,6 +7,7 @@ from uuid import uuid4
 from src.main import app
 from src.schemas.movies import MovieCreateSchema
 
+
 @pytest.mark.asyncio
 async def test_create_movie(client: AsyncClient, db_session: AsyncSession):
     payload = {
@@ -23,7 +24,7 @@ async def test_create_movie(client: AsyncClient, db_session: AsyncSession):
         "certification_id": 1,
         "stars_ids": [],
         "genres_ids": [],
-        "directors_ids": []
+        "directors_ids": [],
     }
 
     response = await client.post("/movies", json=payload)
@@ -32,12 +33,14 @@ async def test_create_movie(client: AsyncClient, db_session: AsyncSession):
     assert "id" in data
     assert data["name"] == payload["name"]
 
+
 @pytest.mark.asyncio
 async def test_list_movies(client: AsyncClient):
     response = await client.get("/movies")
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
+
 
 @pytest.mark.asyncio
 async def test_get_movie_by_id(client: AsyncClient, db_session: AsyncSession):
@@ -55,7 +58,7 @@ async def test_get_movie_by_id(client: AsyncClient, db_session: AsyncSession):
         "certification_id": 1,
         "stars_ids": [],
         "genres_ids": [],
-        "directors_ids": []
+        "directors_ids": [],
     }
     create_resp = await client.post("/movies", json=payload)
     movie_id = create_resp.json()["id"]
@@ -65,6 +68,7 @@ async def test_get_movie_by_id(client: AsyncClient, db_session: AsyncSession):
     data = response.json()
     assert data["id"] == movie_id
     assert data["name"] == payload["name"]
+
 
 @pytest.mark.asyncio
 async def test_delete_movie(client: AsyncClient, db_session: AsyncSession):
@@ -82,7 +86,7 @@ async def test_delete_movie(client: AsyncClient, db_session: AsyncSession):
         "certification_id": 1,
         "stars_ids": [],
         "genres_ids": [],
-        "directors_ids": []
+        "directors_ids": [],
     }
     create_resp = await client.post("/movies", json=payload)
     movie_id = create_resp.json()["id"]

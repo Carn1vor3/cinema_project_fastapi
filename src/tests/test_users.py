@@ -40,8 +40,8 @@ async def test_resend_activation(async_client: AsyncClient):
 
     await async_client.post("/users/register", json=payload)
 
-    response = await async_client.post("/users/resend-activation", params={"email": email})
+    response = await async_client.post(
+        "/users/resend-activation", params={"email": email}
+    )
     assert response.status_code == 200
     assert response.json()["message"] == "New activation link sent"
-
-
