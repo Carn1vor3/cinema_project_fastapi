@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, UTC
 from decimal import Decimal
 
 from fastapi import HTTPException
@@ -70,7 +70,7 @@ async def create_order_for_user(
         }
 
     new_order = Orders(
-        user_id=user.id, status=OrderStatusEnum.PENDING, created_at=datetime.utcnow()
+        user_id=user.id, status=OrderStatusEnum.PENDING, created_at=datetime.now(UTC)
     )
     db.add(new_order)
     await db.flush()

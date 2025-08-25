@@ -94,9 +94,10 @@ async def get_movies(
                 description=m.description,
                 price=m.price,
                 certification_id=m.certification_id,
-                stars=[StarsListSchema.from_orm(s) for s in m.stars],
-                genres=[GenresListSchema.from_orm(g) for g in m.genres],
-                directors=[DirectorsListSchema.from_orm(d) for d in m.directors],
+                stars=[StarsListSchema.model_validate(s, from_attributes=True) for s in m.stars],
+                genres=[GenresListSchema.model_validate(g, from_attributes=True) for g in m.genres],
+                directors=[DirectorsListSchema.model_validate(d, from_attributes=True) for d in m.directors],
+
             )
         )
 
@@ -130,9 +131,10 @@ async def get_movie_by_id(movie_id: int, db: AsyncSession):
         description=movie.description,
         price=movie.price,
         certification_id=movie.certification_id,
-        stars=[StarsListSchema.from_orm(s) for s in movie.stars],
-        genres=[GenresListSchema.from_orm(g) for g in movie.genres],
-        directors=[DirectorsListSchema.from_orm(d) for d in movie.directors],
+        stars=[StarsListSchema.model_validate(s, from_attributes=True) for s in movie.stars],
+        genres=[GenresListSchema.model_validate(g, from_attributes=True) for g in movie.genres],
+        directors=[DirectorsListSchema.model_validate(d, from_attributes=True) for d in movie.directors],
+
     )
 
 

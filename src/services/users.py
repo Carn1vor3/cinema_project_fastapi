@@ -60,7 +60,8 @@ async def register_user(user_data: UserCreate, db: AsyncSession) -> UserOut:
 
     await send_activation_email(new_user.email, token_value)
 
-    return UserOut.from_orm(new_user)
+    return UserOut.model_validate(new_user, from_attributes=True)
+
 
 
 async def activate_user(token: str, db: AsyncSession) -> dict:

@@ -20,7 +20,7 @@ class PaymentItemSchema(BaseModel):
     price_at_payment: Decimal
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class PaymentSchema(BaseModel):
@@ -33,4 +33,4 @@ class PaymentSchema(BaseModel):
     payment_items: list[PaymentItemSchema] = Field(default_factory=list)
 
     class Config:
-        orm_mode = True
+        from_attributes = True

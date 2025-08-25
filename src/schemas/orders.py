@@ -17,7 +17,7 @@ class OrderItemSchema(BaseModel):
     price_at_order: Decimal
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class OrderSchema(BaseModel):
@@ -29,7 +29,7 @@ class OrderSchema(BaseModel):
     items: List[OrderItemSchema] = Field(default_factory=list)
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class OrderInfo(BaseModel):

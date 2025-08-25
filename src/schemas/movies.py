@@ -97,14 +97,14 @@ class MovieListSchema(BaseModel):
     directors: List[DirectorsListSchema] = Field(default_factory=list)
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class MovieCreateSchema(MovieBaseSchema):
     pass
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class MovieUpdateSchema(BaseModel):
@@ -125,7 +125,7 @@ class MovieUpdateSchema(BaseModel):
     directors_ids: Optional[List[int]] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class MovieInGenreSchema(BaseModel):
@@ -134,7 +134,7 @@ class MovieInGenreSchema(BaseModel):
     year: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class GenresDetailSchema(BaseModel):
@@ -143,7 +143,7 @@ class GenresDetailSchema(BaseModel):
     movies: List[MovieInGenreSchema] = Field(default_factory=list)
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class MovieLikeCreate(BaseModel):
