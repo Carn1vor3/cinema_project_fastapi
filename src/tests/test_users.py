@@ -61,7 +61,6 @@ async def test_resend_activation(async_client: AsyncClient):
     email = "resend@example.com"
     payload = {"email": email, "password": "StrongP@ssw0rd!"}
 
-    # спочатку реєструємо користувача
     await async_client.post("/users/register", json=payload)
 
     response = await async_client.post(

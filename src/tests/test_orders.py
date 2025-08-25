@@ -18,8 +18,6 @@ from src.core.security import (
 DATABASE_URL = "sqlite+aiosqlite:///:memory:"
 
 
-# ------------------ Async DB Fixtures ------------------
-
 @pytest_asyncio.fixture
 async def engine():
     engine = create_async_engine(DATABASE_URL, future=True, echo=False)
@@ -47,8 +45,6 @@ async def async_client(test_db_session):
     async with AsyncClient(app=app, base_url="http://testserver") as client:
         yield client
 
-
-# ------------------ Sample Data Fixtures ------------------
 
 @pytest_asyncio.fixture
 async def sample_user(test_db_session: AsyncSession):
