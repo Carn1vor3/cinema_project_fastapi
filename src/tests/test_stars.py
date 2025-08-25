@@ -4,10 +4,8 @@ from httpx import AsyncClient
 from httpx._transports.asgi import ASGITransport
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
-
 from src.database import Base, get_db
 from src.main import app
-from src.models.movies import Stars, Genres
 
 DATABASE_URL = "sqlite+aiosqlite:///:memory:"
 
@@ -25,7 +23,11 @@ async def engine():
 
 @pytest_asyncio.fixture(scope="function")
 async def test_db_session(engine):
-    async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
+    async_session = sessionmaker(
+        engine,
+        expire_on_commit=False,
+        class_=AsyncSession
+    )
     async with async_session() as session:
         yield session
 

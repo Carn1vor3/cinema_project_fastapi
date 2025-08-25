@@ -1,11 +1,7 @@
-import asyncio
 import pytest
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 from uuid import uuid4
-
-from src.main import app
-from src.schemas.movies import MovieCreateSchema
 
 
 @pytest.mark.asyncio

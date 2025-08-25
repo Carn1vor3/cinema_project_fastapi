@@ -133,7 +133,11 @@ async def test_create_order(async_client, sample_user, sample_movie, auth_header
 
 
 @pytest.mark.asyncio
-async def test_get_my_orders(async_client, sample_user, sample_movie, auth_headers, test_db_session):
+async def test_get_my_orders(async_client,
+                             sample_user,
+                             sample_movie,
+                             auth_headers,
+                             test_db_session):
     cart = Carts(user_id=sample_user.id)
     test_db_session.add(cart)
     await test_db_session.flush()
@@ -141,8 +145,10 @@ async def test_get_my_orders(async_client, sample_user, sample_movie, auth_heade
     test_db_session.add(item)
     await test_db_session.commit()
 
-    # Створюємо замовлення
-    await async_client.post("/orders/", json={"movies_ids": [sample_movie.id]}, headers=auth_headers)
+    await async_client.post("/orders/",
+                            json={"movies_ids": [sample_movie.id]},
+                            headers=auth_headers
+                            )
 
     response = await async_client.get("/orders/me", headers=auth_headers)
     assert response.status_code == 200
@@ -161,10 +167,17 @@ async def test_cancel_order(async_client, sample_user, sample_movie, auth_header
     test_db_session.add(item)
     await test_db_session.commit()
 
-    resp = await async_client.post("/orders/", json={"movies_ids": [sample_movie.id]}, headers=auth_headers)
+    resp = await async_client.post(
+        "/orders/",
+        json={"movies_ids": [sample_movie.id]},
+        headers=auth_headers
+    )
     order_id = resp.json()["order"]["id"]
 
-    cancel_resp = await async_client.post(f"/orders/{order_id}/cancel", headers=auth_headers)
+    cancel_resp = await async_client.post(
+        f"/orders/{order_id}/cancel",
+        headers=auth_headers
+    )
     assert cancel_resp.status_code == 200
     data = cancel_resp.json()
     assert data["status"] == "success"
