@@ -1,16 +1,8 @@
-import decimal
-import uuid
 import pytest
-import pytest_asyncio
 from httpx import AsyncClient
-from httpx._transports.asgi import ASGITransport
 from sqlalchemy.ext.asyncio import AsyncSession
-
-from src.core.security import hash_password
-from src.main import app
-from src.database import AsyncSessionLocal, engine, Base
-from src.models.users import User, UserGroup, UserGroupEnum
-from src.models.movies import Movies, Certifications
+from src.models.users import User
+from src.models.movies import Movies
 from src.models.carts import Carts, CartItems
 
 

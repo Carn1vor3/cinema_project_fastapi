@@ -143,5 +143,3 @@ async def sample_user(test_db_session: AsyncSession) -> User:
 
     user._plain_password = plain_password
     return user
-
-

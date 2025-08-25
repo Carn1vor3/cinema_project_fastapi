@@ -1,0 +1,8 @@
+[flake8]
+max-line-length = 88
+extend-ignore = E203, W503, E231, E501
+ignore = VNE003, VNE001
+inline-quotes = double
+multiline-quotes = double
+docstring-quotes = double
+avoid-escape = True

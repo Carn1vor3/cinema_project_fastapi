@@ -1,5 +1,4 @@
 from celery import Celery
-from celery.schedules import crontab
 from src.settings import CELERY_BROKER_URL, CELERY_RESULT_BACKEND
 
 celery_app = Celery(

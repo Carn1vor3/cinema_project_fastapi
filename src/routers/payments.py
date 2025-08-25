@@ -2,13 +2,12 @@ from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from starlette import status
 from starlette.responses import HTMLResponse
 
 from src.database import get_db
 from src.services.payments import get_payments_history, create_checkout_session
 from src.models.users import User
-from src.schemas.payments import PaymentSchema, PaymentConfirmRequest
+from src.schemas.payments import PaymentSchema
 from src.services.users import get_current_user
 
 router = APIRouter(prefix="/payments", tags=["Payments"])

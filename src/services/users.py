@@ -63,7 +63,6 @@ async def register_user(user_data: UserCreate, db: AsyncSession) -> UserOut:
     return UserOut.model_validate(new_user, from_attributes=True)
 
 
-
 async def activate_user(token: str, db: AsyncSession) -> dict:
     result = await db.execute(
         select(ActivationToken).where(ActivationToken.token == token)

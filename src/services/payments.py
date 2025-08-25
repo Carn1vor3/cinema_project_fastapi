@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
 
-from src.models.orders import Orders, OrderItems, OrderStatusEnum
+from src.models.orders import Orders, OrderStatusEnum
 from src.models.payment import Payments, PaymentItems, StatusEnum
 from src.models.users import User
 import stripe

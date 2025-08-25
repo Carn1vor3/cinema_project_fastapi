@@ -16,12 +16,7 @@ from src.schemas.movies import (
     GenresListSchema,
     DirectorsListSchema,
 )
-
 from typing import List, Optional
-from src.schemas.movies import MovieListSchema
-
-
-### Movie Model CRUD ###
 
 
 async def get_movies(
@@ -275,9 +270,6 @@ async def update_movie(movie_id: int, new_movie: MovieUpdateSchema, db: AsyncSes
     return movie_to_update
 
 
-### Stars Model CRUD ###
-
-
 async def get_stars(db: AsyncSession):
     result = await db.execute(select(Stars))
     stars_list = result.scalars().all()
@@ -326,9 +318,6 @@ async def update_star(star_id: int, new_star_data: StarsUpdateSchema, db: AsyncS
     await db.commit()
     await db.refresh(star)
     return star
-
-
-### Genres Model CRUD ###
 
 
 async def get_genres(db: AsyncSession):
